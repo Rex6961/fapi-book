@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Path
+from fastapi import APIRouter, Path, HTTPException, status
 
 from ..model.model import Todo, TodoItem, TodoItems
 
@@ -8,15 +8,15 @@ todo_router = APIRouter()
 todo_list = []
 
 # This method creates variable
-@todo_router.post("/todo")
+@todo_router.post("/todo", status_code=201)
 async def add_todo(todo: Todo) -> dict:
     todo_list.append(todo)
     return {"message": "Todo added successfully"}
 
-# This method gets all variables
-@todo_router.get("/todo")
-async def retrieve_todos() -> dict:
-    return {"todos": todo_list}
+# # This method gets all variables
+# @todo_router.get("/todo")
+# async def retrieve_todos() -> dict:
+#     return {"todos": todo_list}
 
 # This method get all variables into TodoItem
 @todo_router.get("/todo", response_model=TodoItems)
@@ -33,9 +33,10 @@ async def get_single_todo(todo_id: int = Path(..., title="The ID of the todo to 
             return {
                 "todo": todo
             }
-        return {
-            "message": "Todo with supplied ID doesn't exist."
-        }
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Todo with supplied ID doesn't exist",
+        )
     
 # This method updates todo_list variables
 @todo_router.put("/todo/{todo_id}")
@@ -47,9 +48,10 @@ async def update_todo(todo_data: TodoItem, todo_id: int =
             return {
                 "message": "Todo update successfully."
             }
-        return {
-            "message": "Todo with supplied ID doesn't exist."
-        }
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Todo with supplied ID doesn't exist",
+        )
 
 # This method deletes one variable
 @todo_router.delete("/todo/{todo_id}")
@@ -61,9 +63,10 @@ async def delete_single_todo(todo_id: int) -> dict:
             return {
                 "message": "Todo deleted successfully."
             }
-        return {
-            "message": "Todo with supplied ID doesn't exist."
-        }
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Todo  with supplied ID doesn't exist",
+        )
 
 # This method deletes all variables
 @todo_router.delete("/todo")
