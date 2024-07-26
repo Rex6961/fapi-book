@@ -20,6 +20,7 @@ class Todo(BaseModel):
 class TodoItem(BaseModel):
     item: str
 
+    # Example of using model
     model_config = {
         "json_schema_extra": {
             "examples": [
@@ -27,5 +28,24 @@ class TodoItem(BaseModel):
                     "item": "Read the next chapter of the book"
                 }
             ]
+        }
+    }
+
+class TodoItems(BaseModel):
+    todos: list[TodoItem]
+
+    # Example of using model
+    model_config = {
+        "json_schema_extra": {
+            "example": {
+                "todos": [
+                    {
+                        "item": "Example schema 1!"
+                    },
+                    {
+                        "item": "Example schema 2!"
+                    }
+                ]
+            }
         }
     }

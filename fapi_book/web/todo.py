@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Path
 
-from ..model.model import Todo, TodoItem
+from ..model.model import Todo, TodoItem, TodoItems
 
 
 todo_router = APIRouter()
@@ -17,6 +17,13 @@ async def add_todo(todo: Todo) -> dict:
 @todo_router.get("/todo")
 async def retrieve_todos() -> dict:
     return {"todos": todo_list}
+
+# This method get all variables into TodoItem
+@todo_router.get("/todo", response_model=TodoItems)
+async def retrieve_todo() -> dict:
+    return {
+        "todos": todo_list
+    }
 
 # This method gets one variable
 @todo_router.get("/todo/{todo_id}")
