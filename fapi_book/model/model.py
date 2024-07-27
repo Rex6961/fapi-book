@@ -35,22 +35,3 @@ class TodoItem(BaseModel):
             ]
         }
     }
-
-class TodoItems(BaseModel):
-    todos: list[TodoItem]
-
-    # Example of using model
-    model_config = {
-        "json_schema_extra": {
-            "example": {
-                "todos": [
-                    {
-                        "item": "Example schema 1!"
-                    },
-                    {
-                        "item": "Example schema 2!"
-                    }
-                ]
-            }
-        }
-    }

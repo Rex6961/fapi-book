@@ -7,7 +7,7 @@ from fastapi import (
     )
 from fastapi.templating import Jinja2Templates
 
-from ..model.model import Todo, TodoItem, TodoItems
+from ..model.model import Todo, TodoItem
 
 top = Pathlib(__file__).resolve().parents[1]
 
@@ -29,7 +29,7 @@ async def add_todo(request: Request, todo: Todo = Depends(Todo.as_form)) -> dict
                                     })
 
 # This method get all variables into TodoItem
-@todo_router.get("/todo", response_model=TodoItems)
+@todo_router.get("/todo")
 async def retrieve_todo(request: Request) -> dict:
     return templates.TemplateResponse("todo.html",
                                     {
