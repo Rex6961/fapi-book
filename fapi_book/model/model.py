@@ -1,9 +1,14 @@
 from pydantic import BaseModel
+from fastapi import Form
 
 
 class Todo(BaseModel):
-    id: int
+    id: int = None
     item: str
+
+    @classmethod
+    def as_form(cls, item: str = Form(...)):
+        return cls(item=item)
 
     # Example of using model
     model_config = {
